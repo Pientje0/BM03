@@ -74,7 +74,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 <button type="submit" class="login-button">Sign in <span aria-hidden="true">→</span></button>
             </form>
             <p class="text-link">New to the maze? <a href="register.php" class="link">Create an account</a></p>
-            <p class="auth-footnote"><span aria-hidden="true">◇</span> Your next clue is just around the corner.</p>
         </section>
     </main>
     <script src="auth-transitions.js?v=<?= filemtime(__DIR__ . '/auth-transitions.js') ?>"></script>

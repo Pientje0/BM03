@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/auth.php';
 
 $message = '';
 $messageType = '';
@@ -85,7 +86,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 <button type="submit" class="login-button">Create account <span aria-hidden="true">→</span></button>
             </form>
             <p class="text-link">Already have an account? <a href="login.php" class="link">Sign in</a></p>
-            <p class="auth-footnote"><span aria-hidden="true">◇</span> It only takes a minute to get started.</p>
         </section>
     </main>
 
