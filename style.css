@@ -379,7 +379,7 @@ body.home-page {
   }
 }
 
-.gamebutton{
+.teambutton{
     width: 100px;
     height: 100px;
     background: #100609;
@@ -414,7 +414,7 @@ body.home-page {
             drop-shadow(0 0 12px #ff1738);
 }
 
-.gamebutton:hover {
+.teambutton:hover {
     transform: scale(0.95);
     box-shadow:
     0 0 12px #ff1744,
