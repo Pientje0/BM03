@@ -10,8 +10,8 @@
     <main class="auth-layout">
         <section class="auth-card" aria-labelledby="auth-title">
 
-          <button type="submit" class="login-button">Create team<span aria-hidden="true">→</span></button>
-          <button type="submit" class="login-button">join team<span aria-hidden="true">→</span></button>
+          <a href="createteam.php"><button type="submit" class="login-button">Create team<span aria-hidden="true"></span></button></a>
+          <a href="jointeam.php"><button type="submit" class="login-button">join team<span aria-hidden="true"></span></button></a>
          
 
         </section>
