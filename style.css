@@ -415,3 +415,92 @@ body.home-page {
 }
 
 
+
+/* Join team: list of teams */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.team-list {
+  display: grid;
+  gap: 12px;
+  max-height: 420px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.team-list-item {
+  display: grid;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid #432027;
+  border-radius: 12px;
+  background: #140c0e;
+}
+
+.team-list-info {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.team-list-name {
+  overflow: hidden;
+  color: var(--auth-paper);
+  font-size: 1rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team-list-count {
+  flex-shrink: 0;
+  color: var(--auth-muted);
+  font-size: 0.8rem;
+}
+
+.team-list-form {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-page .team-list-form input[type="password"] {
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+}
+
+.auth-page .team-join-button {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid rgba(242, 92, 113, 0.7);
+  border-radius: 9px;
+  background: linear-gradient(135deg, #c32540, #86152b);
+  color: #fff4f5;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: filter 150ms ease;
+}
+
+.auth-page .team-join-button:hover {
+  filter: brightness(1.1);
+}
+
+.auth-page .team-join-button:focus-visible {
+  outline: 3px solid #f0788b;
+  outline-offset: 3px;
+}

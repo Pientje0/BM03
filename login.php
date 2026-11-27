@@ -16,14 +16,15 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     try {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $conn = new mysqli('localhost', 'root', '', 'school_project');
-        $stmt = $conn->prepare('SELECT password FROM gebruikers WHERE username = ?');
+        $stmt = $conn->prepare('SELECT id, password FROM gebruikers WHERE username = ?');
         $stmt->bind_param('s', $user);
         $stmt->execute();
-        $stmt->bind_result($hashedPassword);
+        $stmt->bind_result($userId, $hashedPassword);
         $userExists = $stmt->fetch();
 
         if ($userExists && password_verify($password, $hashedPassword)) {
             session_regenerate_id(true);
+            $_SESSION['user_id'] = $userId;
             $_SESSION['username'] = $user;
             $stmt->close();
             $conn->close();
