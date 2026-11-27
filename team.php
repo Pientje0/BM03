@@ -20,7 +20,7 @@ try {
     $currentTeam = currentTeamName($conn, $userId);
     $conn->close();
 } catch (Throwable $error) {
-    $message = 'Teams are temporarily unavailable. Please try again later.';
+    $message = teamErrorMessage($error);
 }
 ?>
 <!DOCTYPE html>

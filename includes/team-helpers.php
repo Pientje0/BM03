@@ -9,6 +9,8 @@ requireLogin();
 // Databaseverbinding voor de teampagina's.
 // Maakt de teamtabellen zelf aan als ze nog niet bestaan,
 // zodat niemand iets in phpMyAdmin hoeft te doen.
+// Bewust zonder FOREIGN KEY naar `gebruikers`: die mislukt als `gebruikers`
+// op een andere computer net anders is aangemaakt (bv. INT UNSIGNED of MyISAM).
 function teamDb(): mysqli
 {
     $conn = db();
@@ -19,8 +21,7 @@ function teamDb(): mysqli
             teamnaam VARCHAR(50) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
             aangemaakt_door INT NOT NULL,
-            aangemaakt_op TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (aangemaakt_door) REFERENCES gebruikers(id)
+            aangemaakt_op TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci'
     );
 
@@ -30,13 +31,22 @@ function teamDb(): mysqli
             team_id INT NOT NULL,
             gebruiker_id INT NOT NULL,
             PRIMARY KEY (team_id, gebruiker_id),
-            UNIQUE (gebruiker_id),
-            FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
-            FOREIGN KEY (gebruiker_id) REFERENCES gebruikers(id) ON DELETE CASCADE
+            UNIQUE (gebruiker_id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci'
     );
 
     return $conn;
+}
+
+// Foutmelding voor de teampagina's. Op localhost staat de echte
+// MySQL-fout erachter, zodat je kunt zien wat er misgaat.
+function teamErrorMessage(Throwable $error): string
+{
+    $message = 'Teams are temporarily unavailable. Please try again later.';
+    if (in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true)) {
+        $message .= ' (' . $error->getMessage() . ')';
+    }
+    return $message;
 }
 
 // Geeft het id van de ingelogde gebruiker.

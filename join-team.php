@@ -41,9 +41,10 @@ try {
     // Alle teams met hun aantal leden, voor de lijst.
     if ($currentTeam === null) {
         $result = $conn->query(
-            'SELECT t.id, t.teamnaam, COUNT(tl.gebruiker_id) AS leden
+            'SELECT t.id, t.teamnaam, COUNT(g.id) AS leden
              FROM teams t
              LEFT JOIN team_leden tl ON tl.team_id = t.id
+             LEFT JOIN gebruikers g ON g.id = tl.gebruiker_id
              GROUP BY t.id, t.teamnaam
              ORDER BY t.teamnaam'
         );
@@ -52,7 +53,7 @@ try {
     }
     $conn->close();
 } catch (Throwable $error) {
-    $message = 'Teams are temporarily unavailable. Please try again later.';
+    $message = teamErrorMessage($error);
     $messageType = 'error';
 }
 ?>
