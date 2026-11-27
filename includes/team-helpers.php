@@ -1,23 +1,10 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/db.php';
 
 // Alleen ingelogde accounts mogen op de teampagina's komen.
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit;
-}
-
-function e(string $text): string
-{
-    return htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
-
-function teamDb(): mysqli
-{
-    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-    return new mysqli('localhost', 'root', '', 'school_project');
-}
+requireLogin();
 
 // Geeft het id van de ingelogde gebruiker.
 // Sessies van voor de team-update hebben nog geen user_id: die zoeken we op.
@@ -55,4 +42,22 @@ function currentTeamName(mysqli $conn, int $userId): ?string
     }
     unset($_SESSION['team_id']);
     return null;
+}
+
+// Zet een gebruiker in een team.
+// Geeft false als de gebruiker al in een team zit (of de koppeling al bestaat).
+function addTeamMember(mysqli $conn, int $teamId, int $userId): bool
+{
+    try {
+        $stmt = $conn->prepare('INSERT INTO team_leden (team_id, gebruiker_id) VALUES (?, ?)');
+        $stmt->bind_param('ii', $teamId, $userId);
+        $stmt->execute();
+        $stmt->close();
+        return true;
+    } catch (mysqli_sql_exception $e) {
+        if ($e->getCode() === 1062) { // 1062 = dubbele waarde
+            return false;
+        }
+        throw $e;
+    }
 }

@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/team-helpers.php';
+require_once __DIR__ . '/includes/team-helpers.php';
 
 $message = '';
 $messageType = 'error';
 $currentTeam = null;
 
 try {
-    $conn = teamDb();
+    $conn = db();
     $userId = currentUserId($conn);
 
-    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    if (isPost()) {
         $teamnaam = trim((string) ($_POST['teamnaam'] ?? ''));
         $teamPassword = (string) ($_POST['team_password'] ?? '');
         $confirmPassword = (string) ($_POST['confirm_password'] ?? '');
@@ -22,31 +22,30 @@ try {
         } elseif ($teamPassword !== $confirmPassword) {
             $message = 'Those passwords do not match. Please try again.';
         } else {
+            // Team + eerste lid samen opslaan: lukt een van de twee niet, dan geen van beide.
+            $conn->begin_transaction();
             try {
-                $conn->begin_transaction();
-
                 $hash = password_hash($teamPassword, PASSWORD_DEFAULT);
                 $stmt = $conn->prepare('INSERT INTO teams (teamnaam, password, aangemaakt_door) VALUES (?, ?, ?)');
                 $stmt->bind_param('ssi', $teamnaam, $hash, $userId);
                 $stmt->execute();
                 $teamId = $conn->insert_id;
                 $stmt->close();
+                $created = addTeamMember($conn, $teamId, $userId);
+            } catch (mysqli_sql_exception $e) {
+                if ($e->getCode() !== 1062) { // 1062 = teamnaam bestaat al
+                    $conn->rollback();
+                    throw $e;
+                }
+                $created = false;
+            }
 
-                // De maker zit meteen zelf in het team.
-                $stmt = $conn->prepare('INSERT INTO team_leden (team_id, gebruiker_id) VALUES (?, ?)');
-                $stmt->bind_param('ii', $teamId, $userId);
-                $stmt->execute();
-                $stmt->close();
-
+            if ($created) {
                 $conn->commit();
                 $message = 'Team created! You are now in this team.';
                 $messageType = 'success';
-            } catch (mysqli_sql_exception $e) {
+            } else {
                 $conn->rollback();
-                if ($e->getCode() !== 1062) {
-                    throw $e;
-                }
-                // 1062 = dubbele waarde: teamnaam bestaat al of je zit al in een team.
                 $message = 'That team name is taken, or you are already in a team.';
             }
         }
@@ -65,9 +64,9 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create team</title>
-    <link rel="stylesheet" href="style.css?v=<?= filemtime(__DIR__ . '/style.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
 </head>
-<body class="auth-page auth-page--register">
+<body class="auth-page">
     <main class="auth-layout">
         <section class="auth-card" aria-labelledby="auth-title">
             <div class="auth-card-heading">

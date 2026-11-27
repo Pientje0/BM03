@@ -1,3 +1,5 @@
+/* ===== Basis ===== */
+
 * {
   box-sizing: border-box;
 }
@@ -14,7 +16,9 @@ body {
   color: #fff;
 }
 
-/* Login and registration */
+
+/* ===== Kaart-pagina's: login, registreren en team ===== */
+
 .auth-page {
   --auth-ink: #080506;
   --auth-paper: #f5edef;
@@ -207,18 +211,8 @@ body.auth-page--leaving .auth-layout {
   text-decoration: underline;
 }
 
-.auth-footnote {
-  margin: 33px 0 0;
-  color: #817276;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  text-align: center;
-}
 
-.auth-footnote span {
-  margin-right: 5px;
-  color: #dc5269;
-}
+/* ===== Meldingen boven formulieren ===== */
 
 .auth-page .form-message {
   display: grid;
@@ -244,179 +238,9 @@ body.auth-page--leaving .auth-layout {
   font-size: 0.82rem;
 }
 
-@keyframes auth-enter {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.985);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
+/* ===== Join team: lijst met teams ===== */
 
-@keyframes auth-leave {
-  to {
-    opacity: 0;
-    transform: translateY(7px) scale(0.99);
-  }
-}
-
-@keyframes auth-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes auth-fade-out {
-  to { opacity: 0; }
-}
-
-@media (max-width: 520px) {
-  body.auth-page {
-    padding: 12px;
-  }
-
-  .auth-layout {
-    border-radius: 16px;
-  }
-
-  .auth-card {
-    padding: 32px 24px 28px;
-  }
-
-  .auth-card-heading {
-    margin-bottom: 24px;
-  }
-
-  .auth-title {
-    font-size: 1.9rem;
-  }
-
-  .auth-form {
-    gap: 17px;
-  }
-
-  .auth-footnote {
-    margin-top: 25px;
-  }
-}
-
-/* Signed-in home page */
-.account-controls {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: calc(100vw - 50px);
-}
-
-.signed-in-text {
-  margin: 0;
-  color: #fff;
-  text-align: right;
-  overflow-wrap: anywhere;
-}
-
-.logout-form {
-  flex: 0 0 auto;
-  margin: 0;
-}
-
-.logout-button {
-  display: block;
-  width: 100%;
-  min-height: 46px;
-  padding: 12px 16px;
-  border: 1px solid #111;
-  border-radius: 5px;
-  background: #d20000;
-  color: #fff;
-  font: inherit;
-  cursor: pointer;
-}
-
-.logout-button:hover {
-  background: #ff4a3a
-}
-
-.img1 {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 120px;
-  height: auto;
-}
-
-body.home-page {
-  animation: home-fade-in 420ms ease-out both;
-}
-
-@keyframes home-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .auth-layout {
-    animation: auth-fade-in 150ms ease-out both;
-  }
-
-  body.auth-page--leaving .auth-layout {
-    animation: auth-fade-out 150ms ease-in forwards;
-  }
-
-  .auth-page input,
-  .auth-page .login-button {
-    transition: none;
-  }
-
-  body.home-page {
-    animation-duration: 150ms;
-  }
-}
-
-.teambutton{
-    width: 100px;
-    height: 100px;
-    background: #100609;
-    border: 2px solid #ff1738;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow:
-    0 0 12px #ff1744,
-    0 0 25px #ff1744,
-    0 0 45px #ff174488;
-}
-
-
-.laser-play::before {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid #ff1738;
-
-}
-
-.play-icon {
-    border-top: 17px solid transparent;
-    border-bottom: 17px solid transparent;
-    border-left: 25px solid #ff294b;
-    margin-left: 6px;
-
-    filter: drop-shadow(0 0 6px #ff1738)
-            drop-shadow(0 0 12px #ff1738);
-}
-
-
-
-/* Join team: list of teams */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -503,4 +327,165 @@ body.home-page {
 .auth-page .team-join-button:focus-visible {
   outline: 3px solid #f0788b;
   outline-offset: 3px;
+}
+
+
+/* ===== Home-pagina ===== */
+
+.account-controls {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100vw - 50px);
+}
+
+.signed-in-text {
+  margin: 0;
+  color: #fff;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.logout-form {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.logout-button {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 16px;
+  border: 1px solid #111;
+  border-radius: 5px;
+  background: #d20000;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #ff4a3a;
+}
+
+.teambutton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #ff1738;
+  border-radius: 50%;
+  background: #100609;
+  box-shadow:
+    0 0 12px #ff1744,
+    0 0 25px #ff1744,
+    0 0 45px #ff174488;
+  cursor: pointer;
+}
+
+.play-icon {
+  margin-left: 6px;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 25px solid #ff294b;
+  filter:
+    drop-shadow(0 0 6px #ff1738)
+    drop-shadow(0 0 12px #ff1738);
+}
+
+body.home-page {
+  animation: home-fade-in 420ms ease-out both;
+}
+
+
+/* ===== Animaties ===== */
+
+@keyframes auth-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes auth-leave {
+  to {
+    opacity: 0;
+    transform: translateY(7px) scale(0.99);
+  }
+}
+
+@keyframes auth-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes auth-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes home-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* ===== Kleine schermen ===== */
+
+@media (max-width: 520px) {
+  body.auth-page {
+    padding: 12px;
+  }
+
+  .auth-layout {
+    border-radius: 16px;
+  }
+
+  .auth-card {
+    padding: 32px 24px 28px;
+  }
+
+  .auth-card-heading {
+    margin-bottom: 24px;
+  }
+
+  .auth-title {
+    font-size: 1.9rem;
+  }
+
+  .auth-form {
+    gap: 17px;
+  }
+}
+
+
+/* ===== Minder beweging (systeeminstelling) ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-layout {
+    animation: auth-fade-in 150ms ease-out both;
+  }
+
+  body.auth-page--leaving .auth-layout {
+    animation: auth-fade-out 150ms ease-in forwards;
+  }
+
+  .auth-page input,
+  .auth-page .login-button {
+    transition: none;
+  }
+
+  body.home-page {
+    animation-duration: 150ms;
+  }
 }
