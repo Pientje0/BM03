@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/includes/auth.php';
 
-$destination = isset($_SESSION['username']) ? 'home.php' : 'login.php';
-header('Location: ' . $destination);
+header('Location: ' . (isLoggedIn() ? 'home.php' : 'login.php'));
 exit;

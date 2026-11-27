@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/db.php';
 
 $message = '';
 $messageType = '';
 $registrationSucceeded = false;
 
-if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+if (isPost()) {
     $user = trim((string) ($_POST['username'] ?? ''));
     $email = trim((string) ($_POST['email'] ?? ''));
     $password = (string) ($_POST['password'] ?? '');
@@ -17,8 +18,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $messageType = 'error';
     } else {
         try {
-            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-            $conn = new mysqli('localhost', 'root', '', 'school_project');
+            $conn = db();
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $conn->prepare('INSERT INTO gebruikers (username, email, password) VALUES (?, ?, ?)');
             $stmt->bind_param('sss', $user, $email, $hashedPassword);
@@ -42,20 +42,19 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create an account</title>
-    <link rel="stylesheet" href="style.css?v=<?= filemtime(__DIR__ . '/style.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
 </head>
-<body class="auth-page auth-page--register">
+<body class="auth-page">
     <main class="auth-layout">
         <section class="auth-card" aria-labelledby="auth-title">
             <div class="auth-card-heading">
-                
                 <h1 class="auth-title" id="auth-title">Create your account</h1>
                 <p class="auth-subtitle">Get ready to explore, solve clues, and find the way out.</p>
             </div>
 
             <?php if ($message !== ''): ?>
-                <div class="form-message form-message--<?= htmlspecialchars($messageType, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>" role="<?= $messageType === 'error' ? 'alert' : 'status' ?>">
-                    <span><?= htmlspecialchars($message, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></span>
+                <div class="form-message form-message--<?= e($messageType) ?>" role="<?= $messageType === 'error' ? 'alert' : 'status' ?>">
+                    <span><?= e($message) ?></span>
                     <?php if ($registrationSucceeded): ?>
                         <a class="message-link" href="login.php">Sign in now <span aria-hidden="true">→</span></a>
                     <?php endif; ?>
@@ -80,16 +79,17 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 
                 <div class="form-field">
                     <label for="confirm_password">Confirm password</label>
-                    <input id="confirm_password" name="confirm_password" type="password" placeholder="Enter it one more time" minlength="8" autocomplete="new-password" required>
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Enter it one more time" minlength="8" autocomplete="new-password" required>
                 </div>
 
                 <button type="submit" class="login-button">Create account <span aria-hidden="true">→</span></button>
             </form>
+
             <p class="text-link">Already have an account? <a href="login.php" class="link">Sign in</a></p>
         </section>
     </main>
 
-    <script src="register-validation.js"></script>
-    <script src="auth-transitions.js?v=<?= filemtime(__DIR__ . '/auth-transitions.js') ?>"></script>
+    <script src="<?= asset('js/register-validation.js') ?>"></script>
+    <script src="<?= asset('js/auth-transitions.js') ?>"></script>
 </body>
 </html>

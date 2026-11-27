@@ -1,3 +1,5 @@
+/* ===== Basis ===== */
+
 * {
   box-sizing: border-box;
 }
@@ -14,7 +16,9 @@ body {
   color: #fff;
 }
 
-/* Login and registration */
+
+/* ===== Kaart-pagina's: login, registreren en team ===== */
+
 .auth-page {
   --auth-ink: #080506;
   --auth-paper: #f5edef;
@@ -207,18 +211,8 @@ body.auth-page--leaving .auth-layout {
   text-decoration: underline;
 }
 
-.auth-footnote {
-  margin: 33px 0 0;
-  color: #817276;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  text-align: center;
-}
 
-.auth-footnote span {
-  margin-right: 5px;
-  color: #dc5269;
-}
+/* ===== Meldingen boven formulieren ===== */
 
 .auth-page .form-message {
   display: grid;
@@ -244,65 +238,100 @@ body.auth-page--leaving .auth-layout {
   font-size: 0.82rem;
 }
 
-@keyframes auth-enter {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.985);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+/* ===== Join team: lijst met teams ===== */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
-@keyframes auth-leave {
-  to {
-    opacity: 0;
-    transform: translateY(7px) scale(0.99);
-  }
+.team-list {
+  display: grid;
+  gap: 12px;
+  max-height: 420px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
 }
 
-@keyframes auth-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.team-list-item {
+  display: grid;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid #432027;
+  border-radius: 12px;
+  background: #140c0e;
 }
 
-@keyframes auth-fade-out {
-  to { opacity: 0; }
+.team-list-info {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-@media (max-width: 520px) {
-  body.auth-page {
-    padding: 12px;
-  }
-
-  .auth-layout {
-    border-radius: 16px;
-  }
-
-  .auth-card {
-    padding: 32px 24px 28px;
-  }
-
-  .auth-card-heading {
-    margin-bottom: 24px;
-  }
-
-  .auth-title {
-    font-size: 1.9rem;
-  }
-
-  .auth-form {
-    gap: 17px;
-  }
-
-  .auth-footnote {
-    margin-top: 25px;
-  }
+.team-list-name {
+  overflow: hidden;
+  color: var(--auth-paper);
+  font-size: 1rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Signed-in home page */
+.team-list-count {
+  flex-shrink: 0;
+  color: var(--auth-muted);
+  font-size: 0.8rem;
+}
+
+.team-list-form {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-page .team-list-form input[type="password"] {
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+}
+
+.auth-page .team-join-button {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid rgba(242, 92, 113, 0.7);
+  border-radius: 9px;
+  background: linear-gradient(135deg, #c32540, #86152b);
+  color: #fff4f5;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: filter 150ms ease;
+}
+
+.auth-page .team-join-button:hover {
+  filter: brightness(1.1);
+}
+
+.auth-page .team-join-button:focus-visible {
+  outline: 3px solid #f0788b;
+  outline-offset: 3px;
+}
+
+
+/* ===== Home-pagina ===== */
+
 .account-controls {
   position: fixed;
   top: 25px;
@@ -340,25 +369,107 @@ body.auth-page--leaving .auth-layout {
 }
 
 .logout-button:hover {
-  background: #ff4a3a
+  background: #ff4a3a;
 }
 
-.img1 {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 120px;
-  height: auto;
+.teambutton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #ff1738;
+  border-radius: 50%;
+  background: #100609;
+  box-shadow:
+    0 0 12px #ff1744,
+    0 0 25px #ff1744,
+    0 0 45px #ff174488;
+  cursor: pointer;
+}
+
+.play-icon {
+  margin-left: 6px;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 25px solid #ff294b;
+  filter:
+    drop-shadow(0 0 6px #ff1738)
+    drop-shadow(0 0 12px #ff1738);
 }
 
 body.home-page {
   animation: home-fade-in 420ms ease-out both;
 }
 
+
+/* ===== Animaties ===== */
+
+@keyframes auth-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes auth-leave {
+  to {
+    opacity: 0;
+    transform: translateY(7px) scale(0.99);
+  }
+}
+
+@keyframes auth-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes auth-fade-out {
+  to { opacity: 0; }
+}
+
 @keyframes home-fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+
+/* ===== Kleine schermen ===== */
+
+@media (max-width: 520px) {
+  body.auth-page {
+    padding: 12px;
+  }
+
+  .auth-layout {
+    border-radius: 16px;
+  }
+
+  .auth-card {
+    padding: 32px 24px 28px;
+  }
+
+  .auth-card-heading {
+    margin-bottom: 24px;
+  }
+
+  .auth-title {
+    font-size: 1.9rem;
+  }
+
+  .auth-form {
+    gap: 17px;
+  }
+}
+
+
+/* ===== Minder beweging (systeeminstelling) ===== */
 
 @media (prefers-reduced-motion: reduce) {
   .auth-layout {
@@ -378,40 +489,3 @@ body.home-page {
     animation-duration: 150ms;
   }
 }
-
-.teambutton{
-    width: 100px;
-    height: 100px;
-    background: #100609;
-    border: 2px solid #ff1738;
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow:
-    0 0 12px #ff1744,
-    0 0 25px #ff1744,
-    0 0 45px #ff174488;
-}
-
-
-.laser-play::before {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid #ff1738;
-
-}
-
-.play-icon {
-    border-top: 17px solid transparent;
-    border-bottom: 17px solid transparent;
-    border-left: 25px solid #ff294b;
-    margin-left: 6px;
-
-    filter: drop-shadow(0 0 6px #ff1738)
-            drop-shadow(0 0 12px #ff1738);
-}
-
-
