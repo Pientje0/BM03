@@ -18,7 +18,7 @@ $username = htmlspecialchars((string) $_SESSION['username'], ENT_QUOTES | ENT_SU
     <link rel="stylesheet" href="style.css?v=<?= filemtime(__DIR__ . '/style.css') ?>">
 </head>
 <body class="home-page">
-    <a href="game.js" class="gamebutton">
+    <a href="team.php" class="teambutton">
     <span class="play-icon"></span></a>
     <div class="account-controls">
         <p class="signed-in-text">Signed in as <?= $username ?>.</p>
