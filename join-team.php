@@ -9,7 +9,7 @@ $teams = [];
 $chosenTeamId = 0;
 
 try {
-    $conn = db();
+    $conn = teamDb();
     $userId = currentUserId($conn);
 
     if (isPost()) {

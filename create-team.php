@@ -7,7 +7,7 @@ $messageType = 'error';
 $currentTeam = null;
 
 try {
-    $conn = db();
+    $conn = teamDb();
     $userId = currentUserId($conn);
 
     if (isPost()) {

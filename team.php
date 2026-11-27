@@ -6,7 +6,7 @@ $currentTeam = null;
 $message = '';
 
 try {
-    $conn = db();
+    $conn = teamDb();
     $userId = currentUserId($conn);
 
     // Team verlaten: alleen de koppeling in team_leden verwijderen.

@@ -6,6 +6,39 @@ require_once __DIR__ . '/db.php';
 // Alleen ingelogde accounts mogen op de teampagina's komen.
 requireLogin();
 
+// Databaseverbinding voor de teampagina's.
+// Maakt de teamtabellen zelf aan als ze nog niet bestaan,
+// zodat niemand iets in phpMyAdmin hoeft te doen.
+function teamDb(): mysqli
+{
+    $conn = db();
+
+    $conn->query(
+        'CREATE TABLE IF NOT EXISTS teams (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            teamnaam VARCHAR(50) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            aangemaakt_door INT NOT NULL,
+            aangemaakt_op TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (aangemaakt_door) REFERENCES gebruikers(id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci'
+    );
+
+    // Koppelt gebruikers aan teams; iedereen zit in maximaal één team.
+    $conn->query(
+        'CREATE TABLE IF NOT EXISTS team_leden (
+            team_id INT NOT NULL,
+            gebruiker_id INT NOT NULL,
+            PRIMARY KEY (team_id, gebruiker_id),
+            UNIQUE (gebruiker_id),
+            FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+            FOREIGN KEY (gebruiker_id) REFERENCES gebruikers(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci'
+    );
+
+    return $conn;
+}
+
 // Geeft het id van de ingelogde gebruiker.
 // Sessies van voor de team-update hebben nog geen user_id: die zoeken we op.
 function currentUserId(mysqli $conn): int
